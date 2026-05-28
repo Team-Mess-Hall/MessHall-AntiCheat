@@ -20,6 +20,7 @@ namespace AntiCheat.Patches
                 }
                 return true;
             }
+            return true;
         }
     }
 }

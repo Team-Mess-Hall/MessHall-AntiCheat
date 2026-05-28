@@ -17,10 +17,10 @@ namespace AntiCheat.Patches
         {
             if (Settings.IsHost)
             {
-                if (sourcePlayer.IsValid && info.Source.IsValid && (sourcePlayer != info.Source))
+                if (sourcePlayer.IsValid && info.Source.IsValid && (sourcePlayer != info.Source) || References.GameState.GameModeStateValue.GameMode == GameModes.Infection)
                 {
-                    AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
-                    AntiCheatManager.KickPlayerForCheating(AntiCheatManager.NameResult, "Forced an Emergency Meeting", info.Source);
+                    string NameResult = AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
+                    AntiCheatManager.KickPlayerForCheating(NameResult, "Forced an Emergency Meeting", info.Source);
                     return false;
                 }
             }
@@ -36,10 +36,10 @@ namespace AntiCheat.Patches
             if (Settings.IsHost)
             {
                 AntiCheatManager.GetPlayerNameViaPlayerState(sourcePlayer);
-                if (sourcePlayer.IsValid && info.Source.IsValid && (sourcePlayer != info.Source || foundPlayer == sourcePlayer || AntiCheatManager.CheckAliveState(foundPlayer) != false))
+                if (sourcePlayer.IsValid && info.Source.IsValid && (sourcePlayer != info.Source || foundPlayer == sourcePlayer || AntiCheatManager.CheckAliveState(foundPlayer) != false) || References.GameState.GameModeStateValue.GameMode == GameModes.Infection)
                 {
-                    AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
-                    AntiCheatManager.KickPlayerForCheating(AntiCheatManager.NameResult, "Forced Body Reporting", info.Source.PlayerId);
+                    string NameResult = AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
+                    AntiCheatManager.KickPlayerForCheating(NameResult, "Forced Body Reporting", info.Source.PlayerId);
                     return false;
                 }
             }
@@ -56,8 +56,8 @@ namespace AntiCheat.Patches
             {
                 if (sourcePlayer.IsValid && info.Source.IsValid && (sourcePlayer != info.Source))
                 {
-                    AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
-                    AntiCheatManager.KickPlayerForCheating(AntiCheatManager.NameResult, "Forced a Vote Against another Player", info.Source);
+                    string NameResult = AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
+                    AntiCheatManager.KickPlayerForCheating(NameResult, "Forced a Vote Against another Player", info.Source);
                     return false;
                 }
             }
@@ -74,8 +74,8 @@ namespace AntiCheat.Patches
             {
                 if (sourcePlayer.IsValid && info.Source.IsValid && (sourcePlayer != info.Source))
                 {
-                    AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
-                    AntiCheatManager.KickPlayerForCheating(AntiCheatManager.NameResult, "Forced Skip Vote", info.Source);
+                    string NameResult = AntiCheatManager.GetPlayerNameViaPlayerState(info.Source);
+                    AntiCheatManager.KickPlayerForCheating(NameResult, "Forced a player to skip", info.Source);
                     return true;
                 }
             }

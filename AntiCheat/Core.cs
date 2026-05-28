@@ -9,14 +9,17 @@ using static AntiCheat.References;
 using System.Collections;
 using UnityEngine.InputSystem.Controls;
 
-[assembly: MelonGame("SchellGames")]
-[assembly: MelonInfo(typeof(Core), "AntiCheat", "1.0.0", "TeamMessHall")]
+[assembly: MelonGame("Schell Games")]
+[assembly: MelonInfo(typeof(Core), "AntiCheat", "1.1.0", "TeamMessHall")]
 namespace AntiCheat
 {
     public class Core : MelonMod
     {
         public override void OnInitializeMelon()
         {
+            AntiCheatManager.knownModders.Clear();
+            AntiCheatManager.knownModders = AntiCheatManager.LoadKnownModders().GetAwaiter().GetResult();
+
             foreach (Type type in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (type.IsSubclassOf(typeof(MonoBehaviour)))
@@ -28,33 +31,30 @@ namespace AntiCheat
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            if (sceneName != "Boot" && sceneName != "Title")
+            InGame = sceneName != "Boot" && sceneName != "Title";
+
+            if (InGame)
             {
-                MelonCoroutines.Start(delayedStartSpeedCheck());
+                MelonCoroutines.Start(AntiCheatManager.CheckPlayersLoop());
             }
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
+            InGame = sceneName != "Boot" && sceneName != "Title";
+
             if (sceneName == "Title")
             {
                 ModStampManager.LoadModStamp();
                 ReferencesSet = false;
             }
-            if (sceneName != "Boot" && sceneName != "Title")
+            if (InGame)
             {
                 if (!ReferencesSet)
                 {
                     ResetReferences();
                 }
             }
-        }
-
-        public IEnumerator delayedStartSpeedCheck()
-        {
-            yield return new WaitForSeconds(5);
-
-            MelonCoroutines.Start(AntiCheatManager.SpeedCheckLoop());
         }
     }
 }

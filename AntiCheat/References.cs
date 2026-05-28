@@ -17,6 +17,7 @@ namespace AntiCheat
         public static SpawnManager Spawn;
         public static AirlockNetworkRunner networkRunner;
         public static NetworkedKillBehaviour Killing;
+        public static RoleManager Role;
 
         public static void ResetReferences()
         {
@@ -32,6 +33,7 @@ namespace AntiCheat
                 Spawn = null;
                 networkRunner = null;
                 Killing = null;
+                Role = null;
 
                 trace = "Client";
                 Client = FindObjectOfType<XRRig>();
@@ -46,6 +48,8 @@ namespace AntiCheat
                 IsHost = Peer.Runner.LocalPlayer.PlayerId == 9;
                 trace = "NetworkedKillBehaviour";
                 Killing = FindObjectOfType<NetworkedKillBehaviour>();
+                trace = "RoleManager";
+                Role = FindObjectOfType<RoleManager>();
             }
             catch
             {

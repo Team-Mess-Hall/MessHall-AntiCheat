@@ -10,5 +10,6 @@ namespace AntiCheat
     {
         public static bool ReferencesSet;
         public static bool IsHost;
+        public static bool InGame;
     }
 }

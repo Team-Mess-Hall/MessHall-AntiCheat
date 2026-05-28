@@ -20,23 +20,19 @@ namespace AntiCheat.Patches
             {
                 try
                 {
-                    PlayerState playerState = AntiCheatManager.GetPlayerStateByID(player.PlayerId);
                     if (AntiCheatManager.knownModders.Contains(AntiCheatManager.ModerationIDtoSHA256(__instance.GetPlayerUserId(player))))
                     {
-                        MelonCoroutines.Start(WaitKickBlacklisted(playerState));
+                        MelonCoroutines.Start(WaitKickBlacklisted(player));
                     }
                 }
-                catch (Exception ex)
-                {
-
-                }
+                catch { }
             }
         }
 
-        public static IEnumerator WaitKickBlacklisted(PlayerState target)
+        public static IEnumerator WaitKickBlacklisted(PlayerRef target)
         {
             yield return new WaitForSeconds(4.5f);
-            networkRunner.Disconnect(target.PlayerId);
+            networkRunner.Disconnect(target);
         }
     }
 
@@ -55,13 +51,11 @@ namespace AntiCheat.Patches
                     }
                     else if (moderationID != networkRunner.GetPlayerUserId(__instance.PlayerID))
                     {
-                        AntiCheatManager.KickPlayerForCheating(__instance.PState.NetworkName.Value, "Spoofed mod id", __instance.PlayerID);
+                        AntiCheatManager.KickPlayerForCheating(__instance.PState.NetworkName.Value, "Invalid Moderation ID", __instance.PlayerID);
+                        return false;
                     }
                 }
-                catch (Exception ex)
-                {
-
-                }
+                catch { }
             }
             return true;
         }

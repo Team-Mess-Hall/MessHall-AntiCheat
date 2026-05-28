@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>Latest</LangVersion>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -74,7 +75,7 @@
 			<HintPath>C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\MelonLoader\Il2CppAssemblies\Il2CppPhotonVoice.Fusion.dll</HintPath>
 		</Reference>
 		<Reference Include="Il2CppSG.Airlock">
-			<HintPath>C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\MelonLoader\Il2CppAssemblies\Il2CppSG.Airlock.dll</HintPath>
+		  <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us 3D\MelonLoader\Il2CppAssemblies\Il2CppSG.Airlock.dll</HintPath>
 		</Reference>
 		<Reference Include="Il2CppSG.Core">
 			<HintPath>C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\MelonLoader\Il2CppAssemblies\Il2CppSG.Core.dll</HintPath>
@@ -179,5 +180,9 @@
 			<HintPath>C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\MelonLoader\Il2CppAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="@echo off&#xD;&#xA;del /F /Q &quot;C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\Mods\AntiCheat.dll&quot; 2&gt;nul&#xD;&#xA;copy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\Mods\AntiCheat.dll&quot;&#xD;&#xA;" />
+	</Target>
 
 </Project>

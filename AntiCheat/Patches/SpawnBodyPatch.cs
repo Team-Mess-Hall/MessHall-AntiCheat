@@ -3,6 +3,7 @@ using HarmonyLib;
 using Il2CppFusion;
 using Il2CppSG.Airlock;
 using Il2CppSG.Airlock.Network;
+using MelonLoader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace AntiCheat.Patches
             {
                 if (AntiCheatManager.GetPlayerStateByID(id).IsAlive)
                 {
+                    Logging.AntiCheatWarn("Someone in the room is cheating, unable to identify the cheater");
                     return false;
                 }
             }
