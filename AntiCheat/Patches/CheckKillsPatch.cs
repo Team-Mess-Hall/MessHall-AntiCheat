@@ -10,8 +10,8 @@ namespace AntiCheat.Patches
     [HarmonyPatch(typeof(NetworkedKillBehaviour), nameof(NetworkedKillBehaviour.RPC_TargetedAction))]
     public class CheckKillsPatch
     {
-        [HarmonyPrefix]
-        public static bool Prefix(NetworkedKillBehaviour __instance, PlayerRef targetedPlayer, PlayerRef perpetrator, int action)
+        [HarmonyPostfix]
+        public static bool Postfix(NetworkedKillBehaviour __instance, PlayerRef targetedPlayer, PlayerRef perpetrator, int action)
         {
             if (!Settings.IsHost) return true;
 
